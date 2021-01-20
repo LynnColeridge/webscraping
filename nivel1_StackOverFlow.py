@@ -1,4 +1,3 @@
-
 import requests
 from bs4 import BeautifulSoup
 
@@ -7,13 +6,18 @@ encabezado = {
 }
 
 # url semilla
-url="https://stackoverflow.com/"
+# url="https://stackoverflow.com/"
+url_2 = "https://stackoverflow.com/questions"
 
+# resp = requests.get(url, headers=encabezado)
+r = requests.get(url_2, headers=encabezado)
 
-resp = requests.get(url, headers=encabezado)
+# sopa = BeautifulSoup(resp.text, features="lxml")
+s = BeautifulSoup(r.text, features="lxml")
 
+# busca el tag div que tenga el id "questions"
+contenedor_de_preguntas = s.find("div", id="questions")
 
-sopa = BeautifulSoup(resp.text, features="lxml")
-
-contenedor_de_preguntas = sopa.find(id="question-mini-list")
-print(contenedor_de_preguntas)
+# dentro del div anterior, busca los divs que tengan la clase question summary
+lista_de_preguntas = contenedor_de_preguntas.find_all("div", class_="question-summary")
+print(lista_de_preguntas)
